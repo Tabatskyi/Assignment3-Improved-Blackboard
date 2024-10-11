@@ -1,6 +1,6 @@
 #include "Board.h"
 
-Board::Board(const unsigned int InWidth, const unsigned int InHeight, const unsigned int InBorderWidth) : width(InWidth), height(InHeight), borderWidth(InBorderWidth)
+Board::Board(const int InWidth, const int InHeight, const int InBorderWidth) : width(InWidth), height(InHeight), borderWidth(InBorderWidth)
 {
 	if (width == 0 || height == 0 || borderWidth >= width || borderWidth >= height)
 		throw std::invalid_argument("Invalid board dimensions");
@@ -10,10 +10,10 @@ Board::Board(const unsigned int InWidth, const unsigned int InHeight, const unsi
 void Board::Initialize()
 {
 	board.resize(height);
-	for (unsigned int i = 0; i < height; ++i)
+	for (int i = 0; i < height; ++i)
 	{
 		board[i].resize(width);
-		for (unsigned int j = 0; j < width; ++j)
+		for (int j = 0; j < width; ++j)
 		{
 			if (i < borderWidth || (i >= height - borderWidth && i <= height))
 				board[i][j] = '=';
@@ -25,7 +25,7 @@ void Board::Initialize()
 	}
 }
 
-void Board::SetPixel(const unsigned int x, const unsigned int y)
+void Board::SetPixel(const int x, const int y)
 {
 	if (x < borderWidth || x >= width - borderWidth || y < borderWidth || y >= height - borderWidth)
 		return;
@@ -54,9 +54,9 @@ void Board::Draw()
 	for (std::shared_ptr<Shape> shape : shapes)
 		shape->Draw(*this);
 
-	for (unsigned int i = 0; i < height; ++i)
+	for (int i = 0; i < height; ++i)
 	{
-		for (unsigned int j = 0; j < width; ++j)
+		for (int j = 0; j < width; ++j)
 			std::cout << board[i][j];
 		std::cout << std::endl;
 	}

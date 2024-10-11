@@ -5,7 +5,7 @@
 class Board
 {
 public:
-	Board(const unsigned int InWidth, const unsigned int InHeight, const unsigned int InBorderWidth);
+	Board(const int InWidth, const int InHeight, const int InBorderWidth);
 	~Board() = default;
 
 	void Draw();
@@ -13,10 +13,10 @@ public:
 	void Clear();
 
 	void AddShape(std::shared_ptr<Shape> shape);
-	void SetPixel(const unsigned int x, const unsigned int y);
+	void SetPixel(const int x, const int y);
 
-	unsigned int GetWidth() const { return width; }
-	unsigned int GetHeight() const { return height; }
+	int GetWidth() const { return width; }
+	int GetHeight() const { return height; }
 
 	std::vector<std::string> Dump();
 	std::vector<std::shared_ptr<Shape>> GetShapes() const { return shapes; }
@@ -25,5 +25,5 @@ private:
 
 	std::vector<std::vector<char>> board;
 	std::vector<std::shared_ptr<Shape>> shapes;
-	unsigned int width, height, borderWidth;
+	int width, height, borderWidth;
 };

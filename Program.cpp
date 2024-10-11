@@ -45,12 +45,15 @@ static std::vector<int> convertParameters(const std::vector<std::string>& parame
 	return convertedParameters;
 }
 
-static void add(std::string shapeType, std::vector<int> shapeParameters, std::unique_ptr<Board>& board)
+static void add(std::string shapeType, std::vector<std::string> shapeParameters, std::unique_ptr<Board>& board)
 {
-	int shapeParametersSize = shapeParameters.size();
+	bool fill = shapeParameters[0] == "fill";
+	std::string color = shapeParameters[1];
+	std::vector<int> shapeIntParameters = convertParameters(std::vector<std::string>(shapeParameters.begin() + 2, shapeParameters.end()));
+	size_t shapeParametersSize = shapeIntParameters.size();
 	std::shared_ptr<Shape> shape;
 
-	for (int parameter : shapeParameters)
+	for (int parameter : shapeIntParameters)
 	{
 		if (parameter > board->GetHeight() && parameter > board->GetWidth())
 		{
@@ -61,27 +64,27 @@ static void add(std::string shapeType, std::vector<int> shapeParameters, std::un
 	
 	if (shapeType == "circle" && shapeParametersSize == 3)
 	{
-		shape = std::make_shared<Circle>(shapeParameters);
+		shape = std::make_shared<Circle>(fill, color, shapeIntParameters);
 	}
 	else if (shapeType == "square" && shapeParametersSize == 3)
 	{
-		shape = std::make_shared<Square>(shapeParameters);
+		shape = std::make_shared<Square>(fill, color, shapeIntParameters);
 	}
 	else if (shapeType == "line" && shapeParametersSize == 4)
 	{
-		shape = std::make_shared<Line>(shapeParameters);
+		shape = std::make_shared<Line>(color, shapeIntParameters);
 	}
 	else if (shapeType == "triangle" && shapeParametersSize == 4)
 	{
-		shape = std::make_shared<Triangle>(shapeParameters);
+		shape = std::make_shared<Triangle>(fill, color, shapeIntParameters);
 	}
 	else if (shapeType == "rectangle" && shapeParametersSize == 4)
 	{
-		shape = std::make_shared<Rectangle>(shapeParameters);
+		shape = std::make_shared<Rectangle>(fill, color, shapeIntParameters);
 	}
 	else if (shapeType == "parallelogram" && shapeParametersSize == 5)
 	{
-		shape = std::make_shared<Parallelogram>(shapeParameters);
+		shape = std::make_shared<Parallelogram>(fill, color, shapeIntParameters);
 	}
 	else
 	{
@@ -198,7 +201,7 @@ static std::unique_ptr<Board> load(const std::string& filename, std::unique_ptr<
 	for (const std::string& shape : shapes)
 	{
 		std::vector<std::string> shapeParameters = parser->Parse(shape, " ");
-		add(shapeParameters[0], convertParameters(std::vector<std::string>(shapeParameters.begin() + 1, shapeParameters.end())), board);
+		add(shapeParameters[0], std::vector<std::string>(shapeParameters.begin() + 1, shapeParameters.end()), board);
 	}
 	return board;
 }
@@ -275,17 +278,17 @@ int main()
 			std::cout << "Shapes:" << std::endl;
 			for (std::shared_ptr<Shape> shape : board->GetShapes())
 				if (std::shared_ptr<Line> line = std::dynamic_pointer_cast<Line>(shape))
-					std::cout << std::format("ID: {} \n\t Type: Line, Start: ({}, {}), End: ({}, {})", line->GetId(), line->GetXA(), line->GetYA(), line->GetXB(), line->GetYB()) << std::endl;
+					std::cout << std::format("ID: {} \n\t Type: Line, Color: {}, Start: ({}, {}), End: ({}, {})", line->GetId(), line->GetColor(), line->GetXA(), line->GetYA(), line->GetXB(), line->GetYB()) << std::endl;
 				else if (std::shared_ptr<Circle> circle = std::dynamic_pointer_cast<Circle>(shape))
-					std::cout << std::format("ID: {} \n\t Type: Circle, Radius: {}, Center: ({}, {})", circle->GetId(), circle->GetRadius(), circle->GetX(), circle->GetY()) << std::endl;
+					std::cout << std::format("ID: {} \n\t Type: Circle, {}, Color: {}, Radius: {}, Center: ({}, {})", circle->GetId(), circle->GetFill(), circle->GetColor(), circle->GetRadius(), circle->GetX(), circle->GetY()) << std::endl;
 				else if (std::shared_ptr<Triangle> triangle = std::dynamic_pointer_cast<Triangle>(shape))
-					std::cout << std::format("ID: {} \n\t Type: Triangle, Base: {}, Height: {}, Start: ({}, {})", triangle->GetId(), triangle->GetBase(), triangle->GetHeight(), triangle->GetX(), triangle->GetY()) << std::endl;
+					std::cout << std::format("ID: {} \n\t Type: Triangle, {}, Color: {}, Base: {}, Height: {}, Start: ({}, {})", triangle->GetId(), triangle->GetFill(), triangle->GetColor(), triangle->GetBase(), triangle->GetHeight(), triangle->GetX(), triangle->GetY()) << std::endl;
 				else if (std::shared_ptr<Parallelogram> parallelogram = std::dynamic_pointer_cast<Parallelogram>(shape))
-					std::cout << std::format("ID: {} \n\t Type: Parallelogram, Base: {}, Start: ({}, {}), End: ({}, {})", parallelogram->GetId(), parallelogram->GetWidth(), parallelogram->GetX0(), parallelogram->GetY0(), parallelogram->GetX1(), parallelogram->GetY1()) << std::endl;
+					std::cout << std::format("ID: {} \n\t Type: Parallelogram, {}, Color: {}, Base: {}, Start: ({}, {}), End: ({}, {})", parallelogram->GetId(), parallelogram->GetFill(), parallelogram->GetColor(), parallelogram->GetWidth(), parallelogram->GetX0(), parallelogram->GetY0(), parallelogram->GetX1(), parallelogram->GetY1()) << std::endl;
 				else if (std::shared_ptr<Rectangle> rectangle = std::dynamic_pointer_cast<Rectangle>(shape))
-					std::cout << std::format("ID: {} \n\t Type: Rectangle, Base: {}, Height: {}, Start: ({}, {})", rectangle->GetId(), rectangle->GetWidth(), rectangle->GetHeight(), rectangle->GetX(), rectangle->GetY()) << std::endl;
+					std::cout << std::format("ID: {} \n\t Type: Rectangle, {}, Color: {}, Base: {}, Height: {}, Start: ({}, {})", rectangle->GetId(), rectangle->GetFill(), rectangle->GetColor(), rectangle->GetWidth(), rectangle->GetHeight(), rectangle->GetX(), rectangle->GetY()) << std::endl;
 				else if (std::shared_ptr<Square> square = std::dynamic_pointer_cast<Square>(shape))
-					std::cout << std::format("ID: {} \n\t Type: Square, Side: {}, Start: ({}, {})", square->GetId(), square->GetSide(), square->GetX(), square->GetY()) << std::endl;
+					std::cout << std::format("ID: {} \n\t Type: Square, {}, Color: {}, Side: {}, Start: ({}, {})", square->GetId(), square->GetFill(), square->GetColor(), square->GetSide(), square->GetX(), square->GetY()) << std::endl;
 		}
 		else if (command == "clear")
 		{
@@ -295,9 +298,9 @@ int main()
 		{
 			save(parsedInput[1], board->Dump());
 		}
-		else if (command == "add" && parsedInput.size() > 3)
+		else if (command == "add" && parsedInput.size() > 5)
 		{
-			add(parsedInput[1], convertParameters(std::vector<std::string>(parsedInput.begin() + 2, parsedInput.end())), board);
+			add(parsedInput[1], std::vector<std::string>(parsedInput.begin() + 2, parsedInput.end()), board);
 		}
 		else if (command == "select" && parsedInput.size() == 2)
 		{

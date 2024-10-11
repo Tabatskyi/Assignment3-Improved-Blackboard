@@ -4,22 +4,22 @@ void Triangle::Draw(Board& board) const
 {
 	if (height == 0)
 	{
-		std::shared_ptr<Line> AB = std::make_shared<Line>(std::vector<int>{x, y, x + base, y});
+		std::shared_ptr<Line> AB = std::make_shared<Line>(color, std::vector<int>{x, y, x + base, y});
 		AB->Draw(board);
 		return;
 	}
 	if (base == 0)
 	{
-		std::shared_ptr<Line> BC = std::make_shared<Line>(std::vector<int>{x, y + height, x, y});
+		std::shared_ptr<Line> BC = std::make_shared<Line>(color, std::vector<int>{x, y + height, x, y});
 		BC->Draw(board);
 		return;
 	}
 	int xA = x, yA = y;
 	int xB = x + base, yB = y;
 	int xC = x + base / 2, yC = y - height;
-	std::shared_ptr<Line> AB = std::make_shared<Line>(std::vector<int>{xA, yA, xB, yB});
-	std::shared_ptr<Line> BC = std::make_shared<Line>(std::vector<int>{xB, yB, xC, yC});
-	std::shared_ptr<Line> CA = std::make_shared<Line>(std::vector<int>{xC, yC, xA, yA});
+	std::shared_ptr<Line> AB = std::make_shared<Line>(color, std::vector<int>{xA, yA, xB, yB});
+	std::shared_ptr<Line> BC = std::make_shared<Line>(color, std::vector<int>{xB, yB, xC, yC});
+	std::shared_ptr<Line> CA = std::make_shared<Line>(color, std::vector<int>{xC, yC, xA, yA});
 	AB->Draw(board); BC->Draw(board); CA->Draw(board);
 }
 
