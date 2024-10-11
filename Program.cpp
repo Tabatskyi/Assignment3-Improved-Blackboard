@@ -51,11 +51,13 @@ static void add(std::string shapeType, std::vector<int> shapeParameters, std::un
 	std::shared_ptr<Shape> shape;
 
 	for (int parameter : shapeParameters)
+	{
 		if (parameter > board->GetHeight() && parameter > board->GetWidth())
 		{
 			std::cout << "Shape bigger than board or completely outside" << std::endl;
 			return;
 		}
+	}
 	
 	if (shapeType == "circle" && shapeParametersSize == 3)
 	{
@@ -69,7 +71,7 @@ static void add(std::string shapeType, std::vector<int> shapeParameters, std::un
 	{
 		shape = std::make_shared<Line>(shapeParameters);
 	}
-	else  if (shapeType == "triangle" && shapeParametersSize == 4)
+	else if (shapeType == "triangle" && shapeParametersSize == 4)
 	{
 		shape = std::make_shared<Triangle>(shapeParameters);
 	}
@@ -88,11 +90,13 @@ static void add(std::string shapeType, std::vector<int> shapeParameters, std::un
 	}
 
 	for (std::shared_ptr<Shape> s : board->GetShapes())
+	{
 		if (s->Dump() == shape->Dump())
 		{
 			std::cout << "Shape already exists" << std::endl;
 			return;
 		}
+	}
 
 	board->AddShape(shape);
 }
@@ -270,7 +274,18 @@ int main()
 		{
 			std::cout << "Shapes:" << std::endl;
 			for (std::shared_ptr<Shape> shape : board->GetShapes())
-				std::cout << std::format("ID: {}\n\t{}", shape->GetId(), shape->GetParameters()) << std::endl;
+				if (std::shared_ptr<Line> line = std::dynamic_pointer_cast<Line>(shape))
+					std::cout << std::format("ID: {} \n\t Type: Line, Start: ({}, {}), End: ({}, {})", line->GetId(), line->GetXA(), line->GetYA(), line->GetXB(), line->GetYB()) << std::endl;
+				else if (std::shared_ptr<Circle> circle = std::dynamic_pointer_cast<Circle>(shape))
+					std::cout << std::format("ID: {} \n\t Type: Circle, Radius: {}, Center: ({}, {})", circle->GetId(), circle->GetRadius(), circle->GetX(), circle->GetY()) << std::endl;
+				else if (std::shared_ptr<Triangle> triangle = std::dynamic_pointer_cast<Triangle>(shape))
+					std::cout << std::format("ID: {} \n\t Type: Triangle, Base: {}, Height: {}, Start: ({}, {})", triangle->GetId(), triangle->GetBase(), triangle->GetHeight(), triangle->GetX(), triangle->GetY()) << std::endl;
+				else if (std::shared_ptr<Parallelogram> parallelogram = std::dynamic_pointer_cast<Parallelogram>(shape))
+					std::cout << std::format("ID: {} \n\t Type: Parallelogram, Base: {}, Start: ({}, {}), End: ({}, {})", parallelogram->GetId(), parallelogram->GetWidth(), parallelogram->GetX0(), parallelogram->GetY0(), parallelogram->GetX1(), parallelogram->GetY1()) << std::endl;
+				else if (std::shared_ptr<Rectangle> rectangle = std::dynamic_pointer_cast<Rectangle>(shape))
+					std::cout << std::format("ID: {} \n\t Type: Rectangle, Base: {}, Height: {}, Start: ({}, {})", rectangle->GetId(), rectangle->GetWidth(), rectangle->GetHeight(), rectangle->GetX(), rectangle->GetY()) << std::endl;
+				else if (std::shared_ptr<Square> square = std::dynamic_pointer_cast<Square>(shape))
+					std::cout << std::format("ID: {} \n\t Type: Square, Side: {}, Start: ({}, {})", square->GetId(), square->GetSide(), square->GetX(), square->GetY()) << std::endl;
 		}
 		else if (command == "clear")
 		{

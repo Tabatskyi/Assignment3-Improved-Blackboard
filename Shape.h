@@ -14,6 +14,5 @@ public:
 	virtual void Change(const std::vector<int>& params) = 0;
 
 	virtual unsigned long long GetId() const = 0;
-	virtual std::string GetParameters() const = 0;
 	virtual std::string Dump() const = 0;
 };
