@@ -28,7 +28,7 @@ void Circle::Draw(Board& board) const // https://zingl.github.io/bresenham.html#
 
 void Circle::Change(const std::vector<int>& params)
 {
-	radius = params[0];
-	x = params[1];
-	y = params[2];
+	if (params.size() != 3)
+		throw std::invalid_argument("Invalid number of parameters for circle");
+	radius = params[0]; x = params[1]; y = params[2];
 }

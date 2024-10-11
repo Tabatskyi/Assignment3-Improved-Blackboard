@@ -25,6 +25,8 @@ void Triangle::Draw(Board& board) const
 
 void Triangle::Change(const std::vector<int>& params)
 {
+	if (params.size() != 4)
+		throw std::invalid_argument("Invalid number of parameters for triangle");
 	base = params[0];
 	height = params[1];
 	x = params[2];

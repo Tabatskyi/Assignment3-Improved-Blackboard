@@ -58,8 +58,7 @@ void Line::Draw(Board& board) const
 
 void Line::Change(const std::vector<int>& params)
 {
-    xA = params[0];
-    yA = params[1];
-    xB = params[2];
-    yB = params[3];
+    if (params.size() != 4)
+		throw std::invalid_argument("Invalid number of parameters for line"); 
+    xA = params[0]; yA = params[1]; xB = params[2]; yB = params[3];
 }

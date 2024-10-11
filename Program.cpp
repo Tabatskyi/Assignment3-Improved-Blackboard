@@ -12,6 +12,20 @@
 #include "Rectangle.h"
 #include "Parallelogram.h"
 
+static unsigned long long convertId(const std::string& id)
+{
+	unsigned long long convertedId;
+	try
+	{
+		convertedId = std::stoull(id);
+	}
+	catch (const std::exception&)
+	{
+		return 0;
+	}
+	return convertedId;
+}
+
 static std::vector<int> convertParameters(const std::vector<std::string>& parameters)
 {
 	std::vector<int> convertedParameters;
@@ -83,35 +97,40 @@ static void add(std::string shapeType, std::vector<int> shapeParameters, std::un
 	board->AddShape(shape);
 }
 
-static void remove(unsigned long long id, std::unique_ptr<Board>& board)
+static void remove(std::shared_ptr<Shape>& shape, std::unique_ptr<Board>& board)
 {
-	std::vector<std::shared_ptr<Shape>> shapes = board->GetShapes();
-	for (std::shared_ptr<Shape> shape : shapes)
+	if (shape == nullptr)
 	{
-		if (shape->GetId() == id)
-		{
-			shapes.erase(std::remove(shapes.begin(), shapes.end(), shape), shapes.end());
-			board->Clear();
-			for (std::shared_ptr<Shape> s : shapes)
-				board->AddShape(s);
-			return;
-		}
+		std::cout << "Shape not selected" << std::endl;
+		return;
 	}
-	std::cout << "Shape not found" << std::endl;
+	std::vector<std::shared_ptr<Shape>> shapes = board->GetShapes();
+	shapes.erase(std::remove(shapes.begin(), shapes.end(), shape), shapes.end());
+	board->Clear();
+	for (std::shared_ptr<Shape> s : shapes)
+		board->AddShape(s);
+	return;
 }
 
-static void change(unsigned long long id, std::vector<int> newParameters, std::unique_ptr<Board>& board)
+static void change(std::shared_ptr<Shape>& shape, std::vector<int> newParameters, std::unique_ptr<Board>& board)
 {
-	std::vector<std::shared_ptr<Shape>> shapes = board->GetShapes();
-	for (std::shared_ptr<Shape> shape : shapes)
+	if (shape == nullptr)
 	{
-		if (shape->GetId() == id)
-		{
-			shape->Change(newParameters);
-			return;
-		}
+		std::cout << "Shape not selected" << std::endl;
+		return;
 	}
-	std::cout << "Shape not found" << std::endl;
+	try 
+	{
+		shape->Change(newParameters);
+	}
+	catch (const std::exception& exc)
+	{
+		std::cout << exc.what() << std::endl;
+		return;
+	}
+	remove(shape, board);
+	board->AddShape(shape);
+	return;
 }
 
 static void save(const std::string& filename, const std::vector<std::string>& shapes)
@@ -185,6 +204,7 @@ int main()
 	std::string input;
 	std::unique_ptr<Board> board;
 	std::unique_ptr<Parser> parser = std::make_unique<Parser>();
+	std::shared_ptr<Shape> selectedShape;
 
 	do
 	{
@@ -262,8 +282,28 @@ int main()
 		}
 		else if (command == "add" && parsedInput.size() > 3)
 		{
-			std::vector<std::string> shapeParameters(parsedInput.begin() + 1, parsedInput.end());
-			add(shapeParameters[0], convertParameters(std::vector<std::string>(shapeParameters.begin() + 1, shapeParameters.end())), board);
+			add(parsedInput[1], convertParameters(std::vector<std::string>(parsedInput.begin() + 2, parsedInput.end())), board);
+		}
+		else if (command == "select" && parsedInput.size() == 2)
+		{
+			unsigned long long id = convertId(parsedInput[1]);
+			for (std::shared_ptr<Shape> s : board->GetShapes())
+				if (s->GetId() == id)
+				{
+					selectedShape = s;
+					std::cout << std::format("Shape {} selected", id) << std::endl;
+					break;
+				}
+			if (selectedShape == nullptr)
+				std::cout << "Shape not found" << std::endl;
+		}
+		else if (command == "remove")
+		{
+			remove(selectedShape, board);
+		}
+		else if (command == "edit" && parsedInput.size() > 3)
+		{
+			change(selectedShape, convertParameters(std::vector<std::string>(parsedInput.begin() + 1, parsedInput.end())), board);
 		}
 		else
 			std::cout << "Invalid command" << std::endl;

@@ -16,9 +16,7 @@ void Parallelogram::Draw(Board& board) const
 
 void Parallelogram::Change(const std::vector<int>& params)
 {
-	width = params[4];
-	x0 = params[0];
-	y0 = params[1];
-	x1 = params[2];
-	y1 = params[3];
+	if (params.size() != 5)
+		throw std::invalid_argument("Invalid number of parameters for parallelogram");
+	width = params[4]; x0 = params[0]; y0 = params[1]; x1 = params[2]; y1 = params[3];
 }
