@@ -22,3 +22,11 @@ void Triangle::Draw(Board& board) const
 	std::shared_ptr<Line> CA = std::make_shared<Line>(std::vector<int>{xC, yC, xA, yA});
 	AB->Draw(board); BC->Draw(board); CA->Draw(board);
 }
+
+void Triangle::Change(const std::vector<int>& params)
+{
+	base = params[0];
+	height = params[1];
+	x = params[2];
+	y = params[3];
+}

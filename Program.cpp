@@ -74,13 +74,44 @@ static void add(std::string shapeType, std::vector<int> shapeParameters, std::un
 	}
 
 	for (std::shared_ptr<Shape> s : board->GetShapes())
-		if (s->GetId() == shape->GetId())
+		if (s->Dump() == shape->Dump())
 		{
 			std::cout << "Shape already exists" << std::endl;
 			return;
 		}
 
 	board->AddShape(shape);
+}
+
+static void remove(unsigned long long id, std::unique_ptr<Board>& board)
+{
+	std::vector<std::shared_ptr<Shape>> shapes = board->GetShapes();
+	for (std::shared_ptr<Shape> shape : shapes)
+	{
+		if (shape->GetId() == id)
+		{
+			shapes.erase(std::remove(shapes.begin(), shapes.end(), shape), shapes.end());
+			board->Clear();
+			for (std::shared_ptr<Shape> s : shapes)
+				board->AddShape(s);
+			return;
+		}
+	}
+	std::cout << "Shape not found" << std::endl;
+}
+
+static void change(unsigned long long id, std::vector<int> newParameters, std::unique_ptr<Board>& board)
+{
+	std::vector<std::shared_ptr<Shape>> shapes = board->GetShapes();
+	for (std::shared_ptr<Shape> shape : shapes)
+	{
+		if (shape->GetId() == id)
+		{
+			shape->Change(newParameters);
+			return;
+		}
+	}
+	std::cout << "Shape not found" << std::endl;
 }
 
 static void save(const std::string& filename, const std::vector<std::string>& shapes)

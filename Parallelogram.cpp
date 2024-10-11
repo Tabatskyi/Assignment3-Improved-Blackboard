@@ -13,3 +13,12 @@ void Parallelogram::Draw(Board& board) const
 	std::shared_ptr<Line> DA = std::make_shared<Line>(std::vector<int>{xD, yD, xA, yA});
 	AB->Draw(board); BC->Draw(board); CD->Draw(board); DA->Draw(board);
 }
+
+void Parallelogram::Change(const std::vector<int>& params)
+{
+	width = params[4];
+	x0 = params[0];
+	y0 = params[1];
+	x1 = params[2];
+	y1 = params[3];
+}

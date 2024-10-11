@@ -25,3 +25,10 @@ void Circle::Draw(Board& board) const // https://zingl.github.io/bresenham.html#
         }
     } while (xI < 0);
 }
+
+void Circle::Change(const std::vector<int>& params)
+{
+	radius = params[0];
+	x = params[1];
+	y = params[2];
+}
