@@ -45,27 +45,27 @@ static void add(std::string shapeType, std::vector<int> shapeParameters, std::un
 	
 	if (shapeType == "circle" && shapeParametersSize == 3)
 	{
-		shape = std::make_shared<Circle>(shapeParameters[0], shapeParameters[1], shapeParameters[2]);
+		shape = std::make_shared<Circle>(shapeParameters);
 	}
 	else if (shapeType == "square" && shapeParametersSize == 3)
 	{
-		shape = std::make_shared<Square>(shapeParameters[0], shapeParameters[1], shapeParameters[2]);
+		shape = std::make_shared<Square>(shapeParameters);
 	}
 	else if (shapeType == "line" && shapeParametersSize == 4)
 	{
-		shape = std::make_shared<Line>(shapeParameters[0], shapeParameters[1], shapeParameters[2], shapeParameters[3]);
+		shape = std::make_shared<Line>(shapeParameters);
 	}
 	else  if (shapeType == "triangle" && shapeParametersSize == 4)
 	{
-		shape = std::make_shared<Triangle>(shapeParameters[0], shapeParameters[1], shapeParameters[2], shapeParameters[3]);
+		shape = std::make_shared<Triangle>(shapeParameters);
 	}
 	else if (shapeType == "rectangle" && shapeParametersSize == 4)
 	{
-		shape = std::make_shared<Rectangle>(shapeParameters[0], shapeParameters[1], shapeParameters[2], shapeParameters[3]);
+		shape = std::make_shared<Rectangle>(shapeParameters);
 	}
 	else if (shapeType == "parallelogram" && shapeParametersSize == 5)
 	{
-		shape = std::make_shared<Parallelogram>(shapeParameters[0], shapeParameters[1], shapeParameters[2], shapeParameters[3], shapeParameters[4]);
+		shape = std::make_shared<Parallelogram>(shapeParameters);
 	}
 	else
 	{
@@ -220,10 +220,6 @@ int main()
 			std::cout << "Shapes:" << std::endl;
 			for (std::shared_ptr<Shape> shape : board->GetShapes())
 				std::cout << std::format("ID: {}\n\t{}", shape->GetId(), shape->GetParameters()) << std::endl;
-		}
-		else if (command == "undo")
-		{
-			board->Undo();
 		}
 		else if (command == "clear")
 		{
