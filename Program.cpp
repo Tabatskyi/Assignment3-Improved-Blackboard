@@ -318,6 +318,15 @@ int main()
 			remove(selectedShape, board);
 			selectedShape = nullptr;
 		}
+		else if (command == "paint" && parsedInput.size() == 2)
+		{
+			if (selectedShape == nullptr)
+			{
+				std::cout << "Shape not selected" << std::endl;
+				continue;
+			}
+			selectedShape->Paint(parsedInput[1]);
+		}
 		else if (command == "edit" && parsedInput.size() > 3)
 		{
 			change(selectedShape, convertParameters(std::vector<std::string>(parsedInput.begin() + 1, parsedInput.end())), board);
