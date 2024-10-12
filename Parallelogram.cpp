@@ -11,6 +11,15 @@ void Parallelogram::Draw(Board& board) const
 	std::shared_ptr<Line> CD = std::make_shared<Line>(color, std::vector<int>{xC, yC, xD, yD});
 	std::shared_ptr<Line> DA = std::make_shared<Line>(color, std::vector<int>{xD, yD, xA, yA});
 	AB->Draw(board); BC->Draw(board); CD->Draw(board); DA->Draw(board);
+	if (fill)
+	{
+		for (std::tuple point : DA->Trace()) 
+		{
+			int fX = std::get<0>(point), fY = std::get<1>(point);
+			std::shared_ptr<Line> filler = std::make_shared<Line>(color, std::vector<int>{fX, fY, fX + width, fY});
+			filler->Draw(board);
+		}
+	}
 }
 
 void Parallelogram::Change(const std::vector<int>& params)

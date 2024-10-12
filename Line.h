@@ -19,6 +19,7 @@ public:
 	int GetXB() const { return xB; }
 	int GetYB() const { return yB; }
 	std::string GetColor() const { return color; }
+	std::vector<std::tuple<int, int>> Trace();
 private:
 	std::string color;
 	int xA, yA, xB, yB;

@@ -1,3 +1,4 @@
 board 60 20 1
 circle fill blue 5 11 11
 square fill red 5 5 5
+triangle fill yellow 5 5 20 10
