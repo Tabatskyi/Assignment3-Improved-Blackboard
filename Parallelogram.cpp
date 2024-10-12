@@ -2,7 +2,6 @@
 
 void Parallelogram::Draw(Board& board) const
 {
-	int height = y1 - y0;
 	int xA = x0, yA = y0;
 	int xB = x0 + width, yB = y0;
 	int xC = x1, yC = y1;

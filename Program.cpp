@@ -283,12 +283,12 @@ int main()
 					std::cout << std::format("ID: {} \n\t Type: Circle, {}, Color: {}, Radius: {}, Center: ({}, {})", circle->GetId(), circle->GetFill(), circle->GetColor(), circle->GetRadius(), circle->GetX(), circle->GetY()) << std::endl;
 				else if (std::shared_ptr<Triangle> triangle = std::dynamic_pointer_cast<Triangle>(shape))
 					std::cout << std::format("ID: {} \n\t Type: Triangle, {}, Color: {}, Base: {}, Height: {}, Start: ({}, {})", triangle->GetId(), triangle->GetFill(), triangle->GetColor(), triangle->GetBase(), triangle->GetHeight(), triangle->GetX(), triangle->GetY()) << std::endl;
-				else if (std::shared_ptr<Parallelogram> parallelogram = std::dynamic_pointer_cast<Parallelogram>(shape))
-					std::cout << std::format("ID: {} \n\t Type: Parallelogram, {}, Color: {}, Base: {}, Start: ({}, {}), End: ({}, {})", parallelogram->GetId(), parallelogram->GetFill(), parallelogram->GetColor(), parallelogram->GetWidth(), parallelogram->GetX0(), parallelogram->GetY0(), parallelogram->GetX1(), parallelogram->GetY1()) << std::endl;
 				else if (std::shared_ptr<Rectangle> rectangle = std::dynamic_pointer_cast<Rectangle>(shape))
 					std::cout << std::format("ID: {} \n\t Type: Rectangle, {}, Color: {}, Base: {}, Height: {}, Start: ({}, {})", rectangle->GetId(), rectangle->GetFill(), rectangle->GetColor(), rectangle->GetWidth(), rectangle->GetHeight(), rectangle->GetX(), rectangle->GetY()) << std::endl;
 				else if (std::shared_ptr<Square> square = std::dynamic_pointer_cast<Square>(shape))
 					std::cout << std::format("ID: {} \n\t Type: Square, {}, Color: {}, Side: {}, Start: ({}, {})", square->GetId(), square->GetFill(), square->GetColor(), square->GetSide(), square->GetX(), square->GetY()) << std::endl;
+				else if (std::shared_ptr<Parallelogram> parallelogram = std::dynamic_pointer_cast<Parallelogram>(shape))
+					std::cout << std::format("ID: {} \n\t Type: Parallelogram, {}, Color: {}, Base: {}, Start: ({}, {}), End: ({}, {})", parallelogram->GetId(), parallelogram->GetFill(), parallelogram->GetColor(), parallelogram->GetWidth(), parallelogram->GetX0(), parallelogram->GetY0(), parallelogram->GetX1(), parallelogram->GetY1()) << std::endl;
 		}
 		else if (command == "clear")
 		{

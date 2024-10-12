@@ -4,9 +4,9 @@
 class Square : public Parallelogram
 {
 public:
-	Square(const bool InFill, const std::string& InColor, const std::vector<int>& params) :
-		fill(InFill), color(InColor), Parallelogram(fill, color, {params[0], params[1], params[0] + params[2], params[1] + params[2], params[2]}), side(params[2]), 
-		x(params[0]), y(params[1]), id(std::hash<std::string>{}(this->Dump())) {}
+	Square(const bool InFill, const std::string& InColor, const std::vector<int>& params) : 
+		Parallelogram(InFill, InColor, { params[0], params[1], params[0] + params[2] * 2, params[1] + params[2], params[2] * 2 }),
+		fill(InFill), color(InColor), side(params[2]), x(params[0]), y(params[1]), id(this->GetId()) {}
 	~Square() = default;
 
 	void Change(const std::vector<int>& params) override 
@@ -18,12 +18,9 @@ public:
 	}
 
 	std::string Dump() const override { return std::format("square {} {} {} {} {}", this->GetFill(), color, side, x, y); }
-	unsigned long long GetId() const override { return id; }
 	int GetSide() const { return side; }
 	int GetX() const { return x; }
 	int GetY() const { return y; }
-	std::string GetColor() const { return color; }
-	std::string GetFill() const { return fill ? "fill" : "frame"; }
 private:
 	bool fill;
 	std::string color;

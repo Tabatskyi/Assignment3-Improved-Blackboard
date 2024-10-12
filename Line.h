@@ -10,6 +10,7 @@ public:
 	~Line() = default;
 	void Draw(Board& board) const override;
 	void Change(const std::vector<int>& params) override;
+	void Paint(const std::string& InColor) override { color = InColor; }
 
 	std::string Dump() const override { return std::format("line {} {} {} {} {}", color, xA, yA, xB, yB); }
 	unsigned long long GetId() const override { return id; }
