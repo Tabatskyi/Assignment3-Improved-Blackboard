@@ -14,7 +14,9 @@ public:
 	void Undo();
 	void Clear();
 
-	void AddShape(std::shared_ptr<Shape> shape);
+	void Remove(std::shared_ptr<Shape>& shape);
+
+	void AddShape(std::shared_ptr<Shape>& shape);
 	void SetPixel(const int x, const int y, const std::string& color);
 
 	int GetWidth() const { return width; }

@@ -14,7 +14,7 @@ public:
 		if (params.size() != 3) 
 			throw std::invalid_argument("Invalid number of parameters");
 		side = params[2]; x = params[0]; y = params[1]; 
-		Parallelogram::Change({ x, y, x + side, y + side, side }); 
+		Parallelogram::Change({ x, y, x + side * 2, y + side, side * 2 }); 
 	}
 
 	std::string Dump() const override { return std::format("square {} {} {} {} {}", this->GetFill(), color, side, x, y); }

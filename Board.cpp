@@ -39,7 +39,7 @@ void Board::SetPixel(const int x, const int y, const std::string& color)
 	board[y][x] = std::make_tuple(toupper(color[0]), colorIndex);
 }
 
-void Board::AddShape(std::shared_ptr<Shape> shape)
+void Board::AddShape(std::shared_ptr<Shape>& shape)
 {
 	shapes.push_back(shape);
 }
@@ -83,4 +83,9 @@ std::vector<std::string> Board::Dump()
 	for (std::shared_ptr<Shape> shape : shapes)
 		dump.push_back(shape->Dump());
 	return dump;
+}
+
+void Board::Remove(std::shared_ptr<Shape>& shape)
+{
+	shapes.erase(std::remove(shapes.begin(), shapes.end(), shape), shapes.end());
 }

@@ -112,11 +112,8 @@ static void remove(std::shared_ptr<Shape>& shape, std::unique_ptr<Board>& board)
 		std::cout << "Shape not selected" << std::endl;
 		return;
 	}
-	std::vector<std::shared_ptr<Shape>> shapes = board->GetShapes();
-	shapes.erase(std::remove(shapes.begin(), shapes.end(), shape), shapes.end());
-	board->Clear();
-	for (std::shared_ptr<Shape> s : shapes)
-		board->AddShape(s);
+	board->Remove(shape);
+	std::cout << "Shape removed" << std::endl;
 	return;
 }
 
@@ -136,7 +133,7 @@ static void change(std::shared_ptr<Shape>& shape, std::vector<int> newParameters
 		std::cout << exc.what() << std::endl;
 		return;
 	}
-	remove(shape, board);
+	board->Remove(shape);
 	board->AddShape(shape);
 	return;
 }
@@ -319,6 +316,7 @@ int main()
 		else if (command == "remove")
 		{
 			remove(selectedShape, board);
+			selectedShape = nullptr;
 		}
 		else if (command == "edit" && parsedInput.size() > 3)
 		{
