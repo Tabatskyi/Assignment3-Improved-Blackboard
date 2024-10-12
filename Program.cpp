@@ -268,12 +268,12 @@ int main()
 		else if (command == "shapes")
 		{
 			std::cout << "Available shapes: " << std::endl;
-			std::cout << "line startPointX startPointY endPointX endPointY" << std::endl;
-			std::cout << "circle radius centerPointX centerPointY" << std::endl;
-			std::cout << "triangle base height startPointX startPointY" << std::endl;
-			std::cout << "parallelogram startPointX startPointY endPointX endPointY baseWidth" << std::endl;
-			std::cout << "rectangle base height startPointX startPointY" << std::endl;
-			std::cout << "square side startPointX startPointY" << std::endl;
+			std::cout << "line color startPointX startPointY endPointX endPointY" << std::endl;
+			std::cout << "circle fill/frame color radius centerPointX centerPointY" << std::endl;
+			std::cout << "triangle fill/frame color base height startPointX startPointY" << std::endl;
+			std::cout << "parallelogram fill/frame color startPointX startPointY endPointX endPointY baseWidth" << std::endl;
+			std::cout << "rectangle fill/frame color base height startPointX startPointY" << std::endl;
+			std::cout << "square fill/frame color side startPointX startPointY" << std::endl;
 		}
 		else if (command == "help")
 		{
