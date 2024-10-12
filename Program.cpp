@@ -48,9 +48,20 @@ static std::vector<int> convertParameters(const std::vector<std::string>& parame
 
 static void add(std::string shapeType, std::vector<std::string> shapeParameters, std::unique_ptr<Board>& board)
 {
-	bool fill = shapeParameters[0] == "fill";
-	std::string color = shapeParameters[1];
-	std::vector<int> shapeIntParameters = convertParameters(std::vector<std::string>(shapeParameters.begin() + 2, shapeParameters.end()));
+	bool fill = false;
+	std::string color;
+	std::vector<int> shapeIntParameters;
+	if (shapeType == "line")
+	{
+		color = shapeParameters[0];
+		shapeIntParameters = convertParameters(std::vector<std::string>(shapeParameters.begin() + 1, shapeParameters.end()));
+	}
+	else 
+	{
+		fill = shapeParameters[0] == "fill";
+		color = shapeParameters[1];
+		shapeIntParameters = convertParameters(std::vector<std::string>(shapeParameters.begin() + 2, shapeParameters.end()));
+	}
 	size_t shapeParametersSize = shapeIntParameters.size();
 	std::shared_ptr<Shape> shape;
 
@@ -124,6 +135,16 @@ static void change(std::shared_ptr<Shape>& shape, std::vector<int> newParameters
 		std::cout << "Shape not selected" << std::endl;
 		return;
 	}
+
+	for (int parameter : newParameters)
+	{
+		if (parameter > board->GetHeight() && parameter > board->GetWidth())
+		{
+			std::cout << "Shape bigger than board or completely outside" << std::endl;
+			return;
+		}
+	}
+
 	try 
 	{
 		shape->Change(newParameters);

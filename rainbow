@@ -1,0 +1,19 @@
+board 60 20 1
+circle frame red 15 25 20
+circle frame yellow 14 25 20
+circle frame green 13 25 20
+circle frame blue 12 25 20
+circle frame magenta 11 25 20
+triangle fill green 5 5 0 20
+triangle fill green 7 6 6 20
+triangle fill white 5 5 10 20
+triangle fill green 5 5 18 20
+triangle fill white 10 10 15 20
+triangle fill white 10 5 28 20
+triangle fill white 10 10 28 20
+triangle fill green 6 6 24 20
+circle fill yellow 5 59 0
+line yellow 56 5 56 8
+line yellow 54 5 49 6
+line yellow 53 5 50 5
+line yellow 49 3 44 4
