@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+#include <map>
+#include <windows.h>
 #include "Shape.h"
 
 class Board
@@ -13,7 +15,7 @@ public:
 	void Clear();
 
 	void AddShape(std::shared_ptr<Shape> shape);
-	void SetPixel(const int x, const int y);
+	void SetPixel(const int x, const int y, const std::string& color);
 
 	int GetWidth() const { return width; }
 	int GetHeight() const { return height; }
@@ -22,8 +24,8 @@ public:
 	std::vector<std::shared_ptr<Shape>> GetShapes() const { return shapes; }
 private:
 	void Initialize();
-
-	std::vector<std::vector<char>> board;
+	std::map<std::string, int> colorMap = { {"black", 0}, {"gray", 8}, {"blue", 9}, {"green", 10}, {"cyan", 11}, {"red", 12}, {"magenta", 13}, {"yellow", 14}, {"white", 15}};
+	std::vector<std::vector<std::tuple<char, int>>> board; // char, color
 	std::vector<std::shared_ptr<Shape>> shapes;
 	int width, height, borderWidth;
 };

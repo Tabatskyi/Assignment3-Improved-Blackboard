@@ -8,14 +8,14 @@ void Line::Draw(Board& board) const
 		if (y0 > y1)
 			std::swap(y0, y1);
 		for (int y = y0; y <= y1; y++)
-			board.SetPixel(x0, y);
+			board.SetPixel(x0, y, color);
 	}
 	else if (y0 == y1)  // horizontal line
 	{
 		if (x0 > x1)
 			std::swap(x0, x1);
 		for (int x = x0; x <= x1; x++)
-			board.SetPixel(x, y0);
+			board.SetPixel(x, y0, color);
 	}
     // https://www.geeksforgeeks.org/bresenhams-line-generation-algorithm/
     // https://zingl.github.io/bresenham.html#:~:text=This%20page%20introduces%20a%20compact%20and%20efficient%20implementation%20of%20Bresenham's
@@ -42,9 +42,9 @@ void Line::Draw(Board& board) const
         for (int x = x0, y = y0; x <= x1; x++) 
         {
             if (steep) 
-                board.SetPixel(y, x);
+                board.SetPixel(y, x, color);
             else 
-                board.SetPixel(x, y); 
+                board.SetPixel(x, y, color);
 
             error -= dY;
             if (error < 0) 

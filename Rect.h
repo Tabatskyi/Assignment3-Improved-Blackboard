@@ -1,13 +1,13 @@
 #pragma once
 #include "Parallelogram.h"
 
-class Rectangle : public Parallelogram
+class Rect : public Parallelogram
 {
 public:
-	Rectangle(const bool InFill, const std::string& InColor, const std::vector<int>& params) : 
+	Rect(const bool InFill, const std::string& InColor, const std::vector<int>& params) :
 		Parallelogram(InFill, InColor, { params[2], params[3], params[2] + params[0], params[3] + params[1], params[0] }),
 		fill(InFill), color(InColor), width(params[0]), height(params[1]), x(params[2]), y(params[3]), id(this->GetId()) {}
-    ~Rectangle() = default;
+    ~Rect() = default;
 
 	void Change(const std::vector<int>& params) override 
     { 

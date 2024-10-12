@@ -8,10 +8,10 @@ void Circle::Draw(Board& board) const // https://zingl.github.io/bresenham.html#
     int k = 2;
     do
     {
-        board.SetPixel(oX - xI * k, oY + yI);
-        board.SetPixel(oX - yI * k, oY - xI);
-        board.SetPixel(oX + xI * k, oY - yI);
-        board.SetPixel(oX + yI * k, oY + xI);
+        board.SetPixel(oX - xI * k, oY + yI, color);
+        board.SetPixel(oX - yI * k, oY - xI, color);
+        board.SetPixel(oX + xI * k, oY - yI, color);
+        board.SetPixel(oX + yI * k, oY + xI, color);
         r = error;
         if (r <= yI)
         {

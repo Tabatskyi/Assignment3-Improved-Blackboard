@@ -16,20 +16,27 @@ void Board::Initialize()
 		for (int j = 0; j < width; ++j)
 		{
 			if (i < borderWidth || (i >= height - borderWidth && i <= height))
-				board[i][j] = '=';
+				board[i][j] = std::make_tuple('=', 15);
 			else if (j < borderWidth || (j >= width - borderWidth && j <= width))
-				board[i][j] = '|';
+				board[i][j] = std::make_tuple('|', 15);
 			else
-				board[i][j] = ' ';
+				board[i][j] = std::make_tuple(' ', 0);
 		}
 	}
 }
 
-void Board::SetPixel(const int x, const int y)
+void Board::SetPixel(const int x, const int y, const std::string& color)
 {
 	if (x < borderWidth || x >= width - borderWidth || y < borderWidth || y >= height - borderWidth)
 		return;
-	board[y][x] = '*';
+
+	int colorIndex;
+	if (colorMap.find(color) == colorMap.end())
+		colorIndex = 0;
+	else
+		colorIndex = colorMap[color];
+
+	board[y][x] = std::make_tuple(toupper(color[0]), colorIndex);
 }
 
 void Board::AddShape(std::shared_ptr<Shape> shape)
@@ -54,10 +61,17 @@ void Board::Draw()
 	for (std::shared_ptr<Shape> shape : shapes)
 		shape->Draw(*this);
 
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
 	for (int i = 0; i < height; ++i)
 	{
-		for (int j = 0; j < width; ++j)
-			std::cout << board[i][j];
+		for (int j = 0; j < width; ++j) 
+		{
+			char c = std::get<0>(board[i][j]);
+			int color = std::get<1>(board[i][j]);
+			SetConsoleTextAttribute(hConsole, color);
+			std::cout << c;
+		}
 		std::cout << std::endl;
 	}
 }

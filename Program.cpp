@@ -1,18 +1,19 @@
 #include <iostream>
 #include <fstream>
 #include <format>
+#include <map>
 
 #include "Line.h"
+#include "Rect.h"
 #include "Board.h"
 #include "Shape.h"
 #include "Parser.h"
 #include "Circle.h"
 #include "Square.h"
 #include "Triangle.h"
-#include "Rectangle.h"
 #include "Parallelogram.h"
 
-static unsigned long long convertId(const std::string& id)
+static unsigned long long convertID(const std::string& id)
 {
 	unsigned long long convertedId;
 	try
@@ -80,7 +81,7 @@ static void add(std::string shapeType, std::vector<std::string> shapeParameters,
 	}
 	else if (shapeType == "rectangle" && shapeParametersSize == 4)
 	{
-		shape = std::make_shared<Rectangle>(fill, color, shapeIntParameters);
+		shape = std::make_shared<Rect>(fill, color, shapeIntParameters);
 	}
 	else if (shapeType == "parallelogram" && shapeParametersSize == 5)
 	{
@@ -283,7 +284,7 @@ int main()
 					std::cout << std::format("ID: {} \n\t Type: Circle, {}, Color: {}, Radius: {}, Center: ({}, {})", circle->GetId(), circle->GetFill(), circle->GetColor(), circle->GetRadius(), circle->GetX(), circle->GetY()) << std::endl;
 				else if (std::shared_ptr<Triangle> triangle = std::dynamic_pointer_cast<Triangle>(shape))
 					std::cout << std::format("ID: {} \n\t Type: Triangle, {}, Color: {}, Base: {}, Height: {}, Start: ({}, {})", triangle->GetId(), triangle->GetFill(), triangle->GetColor(), triangle->GetBase(), triangle->GetHeight(), triangle->GetX(), triangle->GetY()) << std::endl;
-				else if (std::shared_ptr<Rectangle> rectangle = std::dynamic_pointer_cast<Rectangle>(shape))
+				else if (std::shared_ptr<Rect> rectangle = std::dynamic_pointer_cast<Rect>(shape))
 					std::cout << std::format("ID: {} \n\t Type: Rectangle, {}, Color: {}, Base: {}, Height: {}, Start: ({}, {})", rectangle->GetId(), rectangle->GetFill(), rectangle->GetColor(), rectangle->GetWidth(), rectangle->GetHeight(), rectangle->GetX(), rectangle->GetY()) << std::endl;
 				else if (std::shared_ptr<Square> square = std::dynamic_pointer_cast<Square>(shape))
 					std::cout << std::format("ID: {} \n\t Type: Square, {}, Color: {}, Side: {}, Start: ({}, {})", square->GetId(), square->GetFill(), square->GetColor(), square->GetSide(), square->GetX(), square->GetY()) << std::endl;
@@ -304,7 +305,7 @@ int main()
 		}
 		else if (command == "select" && parsedInput.size() == 2)
 		{
-			unsigned long long id = convertId(parsedInput[1]);
+			unsigned long long id = convertID(parsedInput[1]);
 			for (std::shared_ptr<Shape> s : board->GetShapes())
 				if (s->GetId() == id)
 				{
